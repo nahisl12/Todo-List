@@ -1,8 +1,11 @@
-const project = (name, description) => {
+import note from './note';
+
+const project = (name) => {
   const details = () => {
-    console.log(name, description);
+    console.log(name);
   };
-  return {details};
+
+  return {details, name};
 };
 
 export default project;

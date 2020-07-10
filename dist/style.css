@@ -7,3 +7,7 @@
 body {
     font-family: Georgia, 'Times New Roman', Times, serif;
 }
+
+.displayDiv {
+    border: 1px red solid;
+}
