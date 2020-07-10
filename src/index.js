@@ -1,14 +1,16 @@
 import project from './project';
 
 const container = document.querySelector('#container');
+const addButton = document.querySelector('#addProj');
 let projectArray = [];  // Stores the projects
 let projIndex = [];		// stores the index of the project
 
 function render() {
   addProject();
-  let project1 = project("Title");
+  let project1 = project("TempProj");
   projIndex.push(projectArray.push(project1));
-  project1.details();
+	project1.details();
+	drawProject();
 }
 
 // This function handles the behavior of the button used to add projects
@@ -17,10 +19,9 @@ function addProject() {
   addBtn.classList.add('addBtn');
   addBtn.innerText = "Add Project";
 
-  container.appendChild(addBtn);
+  addButton.appendChild(addBtn);
 
   addBtn.addEventListener('click', () => {
-    console.log("Functioning?");
     addProjectPane();
   });
 }
@@ -33,7 +34,7 @@ function addProjectPane() {
   const form = document.createElement('form');
   const nameField = document.createElement('textarea');
 
-  // Btn for submitting name
+  // Btn for submitting name, creates a form element with input field and stores input in a variable
   const submitBtn = document.createElement('button');
   submitBtn.type = "button";
   submitBtn.innerText = "Create Project";
@@ -46,6 +47,7 @@ function addProjectPane() {
   submitBtn.addEventListener('click', () => {
     projName = nameField.value;
 		createProject(projName);
+		container.innerHTML = "";
 		drawProject();
   });
 }
@@ -60,6 +62,7 @@ function createProject(name) {
 function drawProject() {
 	const displayDiv = document.createElement('div');
 	displayDiv.classList.add('displayDiv');
+
 	// Test to see if they're stored in array. It works!
 	for(let i = 0; i < projectArray.length; i++) {
 		const projectDiv = document.createElement('div');
@@ -71,6 +74,7 @@ function drawProject() {
 		// Adds an event listener so the divs can be click on
 		projectDiv.addEventListener('click', () => {
 			projectArray[i].details();
+			projectArray[i].addNote(displayDiv);
 		});
 	}
 }

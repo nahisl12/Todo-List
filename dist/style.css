@@ -11,3 +11,11 @@ body {
 .displayDiv {
     border: 1px red solid;
 }
+
+.noteDiv {
+    border: 1px solid black;
+}
+
+.cardDiv {
+    border: 1px solid blueviolet;
+}
