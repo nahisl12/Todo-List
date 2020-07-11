@@ -8,14 +8,30 @@ body {
     font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
+#container {
+    display: flex;
+}
+
+.projectDiv {
+    border: 1px solid green;
+    flex-direction: column;
+    width: 20%;
+}
+
 .displayDiv {
+    flex: 1;
     border: 1px red solid;
+    width: 70%;
+    margin: 1rem;
 }
 
 .noteDiv {
     border: 1px solid black;
+    width: 20%;
+    text-align: center;
 }
 
 .cardDiv {
     border: 1px solid blueviolet;
+    margin: 0.2rem;
 }

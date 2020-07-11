@@ -1,29 +1,37 @@
 import {note, createNote} from './note';
 
-let notesArray = [];
-let notesIndex = [];
-
 const project = (name) => {
+  let notesArray = [];
+  let notesIndex = [];
+
+  let triggered = false;
+  const addNoteBtn = document.createElement('button');
   const noteHolder = document.createElement('div');
+  let deleteNote;
 
   const details = () => {
     console.log(name);
   };
 
+  const tempNotes = () => {
+    let project1 = createNote(notesIndex, notesArray, "test1", "testing", "2/31", "urgent");
+  };
+
   const addNote = (parentElement) => {
-    const addNoteBtn = document.createElement('button');
     addNoteBtn.innerText = "New Note";
 
     parentElement.appendChild(addNoteBtn);
 
     addNoteBtn.addEventListener('click', () => {
-      createNotePanel(parentElement);
+      noteHolder.innerText = "";
+      if(!triggered) {
+        createNotePanel(parentElement);
+        triggered = true;
+     }
     });
   };
 
   const createNotePanel = (parentElement) => {
-    let noteTitle;
-  
     const noteDiv = document.createElement('div');  // Div where the note is held
     noteDiv.classList.add('noteDiv');
     const noteForm = document.createElement('form');
@@ -76,17 +84,20 @@ const project = (name) => {
   
     submitForm.addEventListener('click', () => {
       createNote(notesIndex, notesArray, noteNameText.value, noteDescText.value, dueDateChoice.valueAsDate, priority.value);
-      noteHolder.innerText = "";
+      // noteHolder.innerText = "";
       displayNote(parentElement);
       noteDiv.hidden = true;
+      triggered = false;
     });
   };
 
   // Loops throught the array holding notes to display them on the screen
   const displayNote = (parentElement) => {
     noteHolder.classList.add('noteDiv');
+    noteHolder.innerHTML = "";
 
     for(let i = 0; i < notesArray.length; i++){
+      let index = notesIndex[i];
       const cardDiv = document.createElement('div');
       cardDiv.classList.add('cardDiv');
       const noteTitle = document.createElement('p');
@@ -98,16 +109,36 @@ const project = (name) => {
       const notePrio = document.createElement('p');
       notePrio.innerText = notesArray[i].priority;
 
+      // Delete btn
+      deleteNote = document.createElement('button');
+      // deleteNote.type = 'input';
+      deleteNote.innerText = "Delete";
+      deleteNote.addEventListener('click', () => {
+        console.log("firing");
+        delNote();
+        noteHolder.innerHTML = "";
+      });
+
       cardDiv.appendChild(noteTitle);
       cardDiv.appendChild(noteDescription);
       cardDiv.appendChild(noteDueDate);
       cardDiv.appendChild(notePrio);
+      cardDiv.appendChild(deleteNote);
       noteHolder.appendChild(cardDiv);
     }
     parentElement.appendChild(noteHolder);
   };
 
-  return {details, addNote, name};
+  const delNote = () => {
+    for(let i = 0; i < notesArray.length; i++) {
+      let index = notesIndex[i];
+      notesArray.splice(index, 1);
+    }
+  };
+
+  tempNotes();
+
+  return {details, addNote, addNoteBtn, name, displayNote};
 };
 
 

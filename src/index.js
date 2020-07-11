@@ -4,13 +4,10 @@ const container = document.querySelector('#container');
 const addButton = document.querySelector('#addProj');
 let projectArray = [];  // Stores the projects
 let projIndex = [];		// stores the index of the project
+let delProject;
 
 function render() {
   addProject();
-  let project1 = project("TempProj");
-  projIndex.push(projectArray.push(project1));
-	project1.details();
-	drawProject();
 }
 
 // This function handles the behavior of the button used to add projects
@@ -55,28 +52,40 @@ function addProjectPane() {
 // Logic behind creating a new project and pushing it into the array
 function createProject(name) {
   let newProj = project(name);
-  projIndex.push(projectArray.push(newProj)); // Pushes the index of the proj into the array and the new proj into the projectArray for storage
+  projIndex.push(projectArray.push(newProj)-1); // Pushes the index of the proj into the array and the new proj into the projectArray for storage
 }
 
 // This handles the DOM elements that print the projects to the HTML DOC
 function drawProject() {
 	const displayDiv = document.createElement('div');
-	displayDiv.classList.add('displayDiv');
+  displayDiv.classList.add('displayDiv');
 
 	// Test to see if they're stored in array. It works!
 	for(let i = 0; i < projectArray.length; i++) {
-		const projectDiv = document.createElement('div');
-		projectDiv.textContent = projectArray[i].name;
-
-		displayDiv.appendChild(projectDiv);
-		container.appendChild(displayDiv);
+    const projectDiv = document.createElement('div');
+    projectDiv.classList.add('projectDiv');
+    projectDiv.textContent = projectArray[i].name;
 
 		// Adds an event listener so the divs can be click on
 		projectDiv.addEventListener('click', () => {
-			projectArray[i].details();
-			projectArray[i].addNote(displayDiv);
-		});
-	}
+			console.log(projIndex[i]);
+      console.log(projectArray[i]);
+      displayDiv.innerHTML = "";
+      projectArray[i].addNote(projectDiv);
+      projectArray[i].displayNote(displayDiv);
+    });
+    
+
+    container.appendChild(projectDiv);
+    container.appendChild(displayDiv);
+  }
 }
+
+let project1 = project("TempProj");
+projIndex.push(projectArray.push(project1)-1);
+let project2 = project("Testproj1");
+projIndex.push(projectArray.push(project2)-1);
+
+drawProject();
 
 render();
